@@ -9,5 +9,4 @@ httpx==0.25.2
 pandas==2.1.4
 numpy==1.24.3
 python-multipart==0.0.6
-cors==1.0.1
 fastapi-cors==0.0.6
