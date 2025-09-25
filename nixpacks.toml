@@ -1,9 +1,8 @@
 [phases.setup]
 nixPkgs = ["nodejs_18", "npm-9_x"]
-cmds = ["cd frontend && cp -r public/* /app/public/ 2>/dev/null || true"]
 
 [phases.install]
-cmds = ["cd frontend && npm install"]
+cmds = ["cd frontend && npm install", "cp -r frontend/public/* public/ 2>/dev/null || true"]
 
 [phases.build]
 cmds = ["cd frontend && npm run build"]
