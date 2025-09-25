@@ -7,9 +7,9 @@ import asyncio
 import os
 import sys
 
-# Set environment variables
-os.environ["GEMINI_API_KEY"] = "AIzaSyB5-5hl8MLE792mgvNxid9wqGkZLZE_3n0"
-os.environ["CRICKET_API_KEY"] = "19c15f09-f093-493d-80cf-219169585415"
+# Set environment variables (use your own API keys)
+# os.environ["GEMINI_API_KEY"] = "your_gemini_api_key_here"
+# os.environ["CRICKET_API_KEY"] = "your_cricket_api_key_here"
 
 async def test_hybrid_agent():
     """Test the hybrid agent"""

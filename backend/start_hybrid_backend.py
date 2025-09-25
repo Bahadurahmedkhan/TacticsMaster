@@ -7,9 +7,9 @@ import os
 import uvicorn
 import sys
 
-# Set the new API key
-os.environ["GEMINI_API_KEY"] = "AIzaSyB5-5hl8MLE792mgvNxid9wqGkZLZE_3n0"
-os.environ["CRICKET_API_KEY"] = "19c15f09-f093-493d-80cf-219169585415"
+# Set environment variables (use your own API keys)
+# os.environ["GEMINI_API_KEY"] = "your_gemini_api_key_here"
+# os.environ["CRICKET_API_KEY"] = "your_cricket_api_key_here"
 
 def main():
     """Start the hybrid backend server"""
@@ -33,7 +33,7 @@ def main():
         print("\n🎯 The system is now using:")
         print("   - Gemini Flash AI for analysis")
         print("   - Real cricket data from CricAPI")
-        print("   - New API key: AIzaSyB5-5hl8MLE792mgvNxid9wqGkZLZE_3n0")
+        print("   - API keys from environment variables")
         
         # Start the server
         uvicorn.run(

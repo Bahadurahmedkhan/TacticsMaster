@@ -234,3 +234,16 @@ Thumbs.db
 *secret*
 *password*
 *credential*
+*key*
+*token*
+
+# Specific API key patterns
+AIzaSy*
+sk-*
+*_KEY*
+*_SECRET*
+*_TOKEN*
+
+# Test files with hardcoded keys
+*test*key*
+*test*api*

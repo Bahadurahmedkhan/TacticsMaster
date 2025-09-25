@@ -12,8 +12,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# CricAPI Configuration
-CRICAPI_KEY = "19c15f09-f093-493d-80cf-219169585415"
+# CricAPI Configuration (use your own API key)
+CRICAPI_KEY = "your_cricapi_key_here"
 CRICAPI_BASE = "https://api.cricapi.com/v1"
 
 def test_cricapi_connection():
