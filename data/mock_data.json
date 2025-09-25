@@ -1,0 +1,166 @@
+{
+  "players": {
+    "Virat Kohli": {
+      "name": "Virat Kohli",
+      "role": "Batsman",
+      "recent_form": {
+        "last_10_innings": [45, 67, 23, 89, 12, 78, 34, 56, 91, 43],
+        "batting_average": 54.8,
+        "strike_rate": 125.6
+      },
+      "weaknesses": {
+        "against_spin": {
+          "average": 28.4,
+          "strike_rate": 95.2,
+          "dismissal_rate": 0.15
+        },
+        "early_innings": {
+          "first_10_balls": {
+            "average": 18.7,
+            "strike_rate": 78.3
+          }
+        }
+      },
+      "strengths": {
+        "death_overs": {
+          "overs_16_20": {
+            "average": 42.3,
+            "strike_rate": 145.8
+          }
+        },
+        "against_pace": {
+          "average": 48.9,
+          "strike_rate": 132.1
+        }
+      }
+    },
+    "Rohit Sharma": {
+      "name": "Rohit Sharma",
+      "role": "Batsman",
+      "recent_form": {
+        "last_10_innings": [67, 89, 45, 23, 78, 56, 91, 34, 67, 45],
+        "batting_average": 58.2,
+        "strike_rate": 118.4
+      },
+      "weaknesses": {
+        "against_spin": {
+          "average": 32.1,
+          "strike_rate": 88.7,
+          "dismissal_rate": 0.18
+        }
+      },
+      "strengths": {
+        "powerplay": {
+          "overs_1_6": {
+            "average": 45.6,
+            "strike_rate": 142.3
+          }
+        }
+      }
+    }
+  },
+  "teams": {
+    "India": {
+      "name": "India",
+      "squad": {
+        "batsmen": ["Rohit Sharma", "Virat Kohli", "KL Rahul", "Suryakumar Yadav"],
+        "bowlers": ["Jasprit Bumrah", "Mohammed Shami", "Ravindra Jadeja", "Kuldeep Yadav"],
+        "all_rounders": ["Hardik Pandya", "Ravindra Jadeja", "Axar Patel"]
+      },
+      "recent_performance": {
+        "last_5_matches": ["W", "L", "W", "W", "L"],
+        "win_percentage": 60
+      },
+      "strengths": [
+        "Strong batting lineup",
+        "Quality spin bowling",
+        "Good fielding unit"
+      ],
+      "weaknesses": [
+        "Inconsistent middle order",
+        "Death bowling concerns",
+        "Over-reliance on top order"
+      ]
+    },
+    "Australia": {
+      "name": "Australia",
+      "squad": {
+        "batsmen": ["David Warner", "Steve Smith", "Marnus Labuschagne", "Travis Head"],
+        "bowlers": ["Pat Cummins", "Mitchell Starc", "Josh Hazlewood", "Adam Zampa"],
+        "all_rounders": ["Glenn Maxwell", "Mitchell Marsh", "Cameron Green"]
+      },
+      "recent_performance": {
+        "last_5_matches": ["W", "W", "L", "W", "W"],
+        "win_percentage": 80
+      },
+      "strengths": [
+        "Strong pace attack",
+        "Experienced batting lineup",
+        "Good fielding unit"
+      ],
+      "weaknesses": [
+        "Struggles against spin",
+        "Inconsistent middle order",
+        "Over-reliance on top order"
+      ]
+    }
+  },
+  "venues": {
+    "Narendra Modi Stadium": {
+      "name": "Narendra Modi Stadium",
+      "location": "Ahmedabad, India",
+      "capacity": 132000,
+      "pitch_conditions": {
+        "type": "Batting friendly",
+        "pace_friendly": true,
+        "spin_friendly": false,
+        "bounce": "Medium"
+      },
+      "average_scores": {
+        "first_innings": 285,
+        "second_innings": 245,
+        "run_rate": 5.8
+      }
+    },
+    "Melbourne Cricket Ground": {
+      "name": "Melbourne Cricket Ground",
+      "location": "Melbourne, Australia",
+      "capacity": 100024,
+      "pitch_conditions": {
+        "type": "Balanced",
+        "pace_friendly": true,
+        "spin_friendly": true,
+        "bounce": "High"
+      },
+      "average_scores": {
+        "first_innings": 265,
+        "second_innings": 235,
+        "run_rate": 5.4
+      }
+    }
+  },
+  "matchups": {
+    "India vs Australia": {
+      "head_to_head": {
+        "total_matches": 45,
+        "india_wins": 28,
+        "australia_wins": 17,
+        "win_percentage": 62.2
+      },
+      "recent_encounters": [
+        {
+          "date": "2023-11-19",
+          "venue": "Narendra Modi Stadium",
+          "result": "India won by 6 wickets",
+          "key_performers": ["Virat Kohli: 89*", "Jasprit Bumrah: 3/18"]
+        },
+        {
+          "date": "2023-10-08",
+          "venue": "Melbourne Cricket Ground",
+          "result": "Australia won by 4 wickets",
+          "key_performers": ["Steve Smith: 78", "Pat Cummins: 4/25"]
+        }
+      ]
+    }
+  }
+}
