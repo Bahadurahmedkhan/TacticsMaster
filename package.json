@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cd frontend && npm start",
-    "build": "cd frontend && npm run build",
+    "build": "cp -r frontend/public/* public/ 2>/dev/null || true && cd frontend && npm run build",
     "install": "cd frontend && npm install"
   },
   "dependencies": {
