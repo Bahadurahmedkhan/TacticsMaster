@@ -10,5 +10,4 @@ cmds = ["npm run build"]
 [start]
 cmd = "serve -s build -l $PORT"
 
-[providers]
-node = "18"
+providers = ["node"]
