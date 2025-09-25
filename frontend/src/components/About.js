@@ -44,7 +44,9 @@ const About = ({ onBackToAnalysis }) => {
       if (inView) {
         let startTime;
         const animate = (currentTime) => {
-          if (!startTime) startTime = currentTime;
+          if (!startTime) {
+            startTime = currentTime;
+          }
           const progress = Math.min((currentTime - startTime) / duration, 1);
           setCount(Math.floor(progress * end));
           if (progress < 1) {
