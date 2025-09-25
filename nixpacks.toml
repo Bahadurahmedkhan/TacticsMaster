@@ -10,8 +10,7 @@ cmds = ["cd frontend && npm run build"]
 [start]
 cmd = "cd frontend && serve -s build -l $PORT"
 
-[providers]
-node = "18"
+providers = ["node"]
 
 [detectors]
 node = "frontend"
