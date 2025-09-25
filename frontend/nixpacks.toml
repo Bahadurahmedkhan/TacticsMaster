@@ -11,3 +11,7 @@ cmds = ["npm run build"]
 cmd = "serve -s build -l $PORT"
 
 providers = ["node"]
+
+[variables]
+NODE_ENV = "production"
+PUBLIC_URL = "."
