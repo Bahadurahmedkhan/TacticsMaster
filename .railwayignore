@@ -1,0 +1,5 @@
+# Ignore Dockerfiles to force Nixpacks usage
+**/Dockerfile*
+**/docker-compose*
+**/docker-compose.yml
+**/docker-compose.yaml
