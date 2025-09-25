@@ -44,7 +44,7 @@ In the Vercel dashboard for your backend project:
    ```
    GEMINI_API_KEY = your_actual_gemini_api_key
    CRICKET_API_KEY = your_actual_cricket_api_key
-   CRICKET_API_BASE_URL = https://api.sportmonks.com/v3/football
+   CRICKET_API_BASE_URL = https://api.cricketdata.org
    ```
 
 ### 2.3 Deploy Backend
@@ -171,7 +171,7 @@ your-repo/
 ```
 GEMINI_API_KEY=your_gemini_api_key_here
 CRICKET_API_KEY=your_cricket_api_key_here
-CRICKET_API_BASE_URL=https://api.sportmonks.com/v3/football
+CRICKET_API_BASE_URL=https://api.cricketdata.org
 ```
 
 ### Frontend Environment Variables
