@@ -1,5 +1,5 @@
 [build]
-builder = "dockerfile"
+builder = "nixpacks"
 
 [deploy]
-startCommand = "serve -s build -l $PORT"
+startCommand = "cd frontend && serve -s build -l $PORT"

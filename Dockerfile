@@ -1,20 +1,17 @@
 # Use Node.js 18 Alpine image
 FROM node:18-alpine
 
-# Set working directory to frontend
-WORKDIR /app/frontend
+# Set working directory
+WORKDIR /app
 
-# Copy package files from frontend directory
-COPY frontend/package*.json ./
+# Copy all files (including frontend directory)
+COPY . .
 
-# Install dependencies
-RUN npm install --production
-
-# Copy source code from frontend directory
-COPY frontend/ .
+# Navigate to frontend directory and install dependencies
+RUN cd frontend && npm install --production
 
 # Build the application
-RUN npm run build
+RUN cd frontend && npm run build
 
 # Install serve globally
 RUN npm install -g serve
@@ -23,4 +20,4 @@ RUN npm install -g serve
 EXPOSE 3000
 
 # Start the application
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["serve", "-s", "frontend/build", "-l", "3000"]
