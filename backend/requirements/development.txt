@@ -1,0 +1,34 @@
+# Include base requirements
+-r base.txt
+
+# Development tools
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-xdist==3.5.0
+
+# Code quality tools
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+mypy==1.7.1
+pre-commit==3.6.0
+
+# Testing utilities
+httpx==0.25.2
+factory-boy==3.3.0
+faker==20.1.0
+
+# Development server
+watchfiles==0.21.0
+python-dotenv==1.0.0
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.4.8
+mkdocs-swagger-ui-tag==0.6.8
+
+# Debugging
+ipdb==0.13.13
+rich==13.7.0
