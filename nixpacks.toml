@@ -14,3 +14,6 @@ providers = ["node"]
 
 [detectors]
 node = "frontend"
+
+[variables]
+NODE_ENV = "production"
