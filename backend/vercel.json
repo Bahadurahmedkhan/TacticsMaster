@@ -12,9 +12,4 @@
       "dest": "main.py"
     }
   ],
-  "env": {
-    "GEMINI_API_KEY": "@gemini_api_key",
-    "CRICKET_API_KEY": "@cricket_api_key",
-    "CRICKET_API_BASE_URL": "@cricket_api_base_url"
-  }
 }
