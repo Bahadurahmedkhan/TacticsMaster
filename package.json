@@ -1,23 +1,13 @@
 {
-  "name": "tactics-master-monorepo",
+  "name": "tactics-master-root",
   "version": "1.0.0",
-  "description": "Tactics Master - AI-powered cricket tactical analysis",
   "private": true,
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
-    "start": "cd frontend && serve -s build -l $PORT",
+    "start": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
     "install": "cd frontend && npm install"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
-  },
-  "workspaces": [
-    "frontend"
-  ],
-  "nixpacks": {
-    "detectors": {
-      "node": "frontend"
-    }
+  "dependencies": {
+    "serve": "^14.2.1"
   }
 }
