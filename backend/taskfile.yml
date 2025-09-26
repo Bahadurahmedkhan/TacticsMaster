@@ -1,0 +1,384 @@
+# Task runner configuration for Tactics Master
+# This file defines all available tasks for development, testing, and deployment
+
+version: '3'
+
+tasks:
+  # Installation and Setup
+  install:
+    desc: "Install development dependencies"
+    cmds:
+      - pip install -e .[dev]
+      - pre-commit install
+
+  install-prod:
+    desc: "Install production dependencies"
+    cmds:
+      - pip install -e .
+
+  install-test:
+    desc: "Install testing dependencies"
+    cmds:
+      - pip install -e .[test]
+
+  # Code Quality
+  quality:
+    desc: "Run all quality checks"
+    cmds:
+      - task: lint
+      - task: type-check
+      - task: security
+
+  lint:
+    desc: "Run linting checks"
+    cmds:
+      - flake8 src tests --max-line-length=88 --extend-ignore=E203,W503
+      - pydocstyle src --convention=google
+      - xenon --max-absolute B --max-modules A --max-average A src
+
+  lint-fix:
+    desc: "Fix linting issues automatically"
+    cmds:
+      - black src tests
+      - isort src tests --profile=black
+
+  format:
+    desc: "Format code with Black"
+    cmds:
+      - black src tests --line-length=88
+
+  format-check:
+    desc: "Check code formatting"
+    cmds:
+      - black --check src tests --line-length=88
+
+  sort-imports:
+    desc: "Sort imports with isort"
+    cmds:
+      - isort src tests --profile=black --line-length=88
+
+  sort-imports-check:
+    desc: "Check import sorting"
+    cmds:
+      - isort --check-only src tests --profile=black --line-length=88
+
+  type-check:
+    desc: "Run type checking with mypy"
+    cmds:
+      - mypy src --strict --ignore-missing-imports
+
+  # Security
+  security:
+    desc: "Run security scans"
+    cmds:
+      - bandit -r src -f json -o bandit-report.json
+      - safety check --json --output safety-report.json
+      - semgrep --config=auto --json --output=semgrep-report.json src
+
+  security-check:
+    desc: "Check for security vulnerabilities"
+    cmds:
+      - bandit -r src
+      - safety check
+
+  # Testing
+  test:
+    desc: "Run all tests"
+    cmds:
+      - pytest --cov=src --cov-report=html --cov-report=term-missing --cov-fail-under=90
+
+  test-fast:
+    desc: "Run tests quickly"
+    cmds:
+      - pytest -x -v --tb=short
+
+  test-cov:
+    desc: "Run tests with coverage"
+    cmds:
+      - pytest --cov=src --cov-report=html --cov-report=term-missing --cov-fail-under=90
+
+  test-unit:
+    desc: "Run unit tests"
+    cmds:
+      - pytest -m unit --cov=src --cov-report=html
+
+  test-integration:
+    desc: "Run integration tests"
+    cmds:
+      - pytest -m integration --cov=src --cov-report=html
+
+  test-e2e:
+    desc: "Run end-to-end tests"
+    cmds:
+      - pytest -m e2e --cov=src --cov-report=html
+
+  test-performance:
+    desc: "Run performance tests"
+    cmds:
+      - pytest -m performance --benchmark-only
+
+  test-security:
+    desc: "Run security tests"
+    cmds:
+      - pytest -m security
+
+  # Development
+  dev:
+    desc: "Start development server"
+    cmds:
+      - uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+
+  dev-debug:
+    desc: "Start development server with debug"
+    cmds:
+      - uvicorn src.main:app --reload --host 0.0.0.0 --port 8000 --log-level debug
+
+  # Production
+  prod:
+    desc: "Start production server"
+    cmds:
+      - uvicorn src.main:app --host 0.0.0.0 --port 8000 --workers 4
+
+  prod-gunicorn:
+    desc: "Start production server with Gunicorn"
+    cmds:
+      - gunicorn src.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+
+  # Pre-commit
+  pre-commit:
+    desc: "Run pre-commit hooks"
+    cmds:
+      - pre-commit run --all-files
+
+  pre-commit-install:
+    desc: "Install pre-commit hooks"
+    cmds:
+      - pre-commit install
+
+  pre-commit-update:
+    desc: "Update pre-commit hooks"
+    cmds:
+      - pre-commit autoupdate
+
+  # Cleanup
+  clean:
+    desc: "Clean up generated files"
+    cmds:
+      - rm -rf build dist *.egg-info .coverage htmlcov .pytest_cache .mypy_cache
+      - find . -type d -name __pycache__ -exec rm -rf {} +
+      - find . -name "*.pyc" -delete
+
+  clean-deps:
+    desc: "Clean up dependencies"
+    cmds:
+      - pip uninstall -y tactics-master
+      - pip cache purge
+
+  # Build and Package
+  build:
+    desc: "Build package"
+    cmds:
+      - python -m build
+
+  build-wheel:
+    desc: "Build wheel package"
+    cmds:
+      - python -m build --wheel
+
+  build-sdist:
+    desc: "Build source distribution"
+    cmds:
+      - python -m build --sdist
+
+  # Docker
+  docker-build:
+    desc: "Build Docker image"
+    cmds:
+      - docker build -t tactics-master:latest .
+
+  docker-run:
+    desc: "Run Docker container"
+    cmds:
+      - docker run -p 8000:8000 tactics-master:latest
+
+  docker-compose-up:
+    desc: "Start with Docker Compose"
+    cmds:
+      - docker-compose up -d
+
+  docker-compose-down:
+    desc: "Stop Docker Compose"
+    cmds:
+      - docker-compose down
+
+  # Database
+  db-migrate:
+    desc: "Run database migrations"
+    cmds:
+      - alembic upgrade head
+
+  db-rollback:
+    desc: "Rollback database migrations"
+    cmds:
+      - alembic downgrade -1
+
+  db-reset:
+    desc: "Reset database"
+    cmds:
+      - alembic downgrade base
+      - alembic upgrade head
+
+  # Monitoring
+  monitor:
+    desc: "Start monitoring"
+    cmds:
+      - python -m memory_profiler src/main.py
+
+  profile:
+    desc: "Profile application"
+    cmds:
+      - python -m cProfile -o profile.prof src/main.py
+
+  # Documentation
+  docs:
+    desc: "Generate documentation"
+    cmds:
+      - sphinx-build -b html docs docs/_build/html
+
+  docs-serve:
+    desc: "Serve documentation"
+    cmds:
+      - python -m http.server 8001 -d docs/_build/html
+
+  # CI/CD
+  ci:
+    desc: "Run CI pipeline"
+    cmds:
+      - task: quality
+      - task: test
+      - task: security
+
+  ci-test:
+    desc: "Run CI tests"
+    cmds:
+      - pytest --cov=src --cov-report=xml --cov-report=html --junitxml=test-results.xml
+
+  # Health Checks
+  health:
+    desc: "Check application health"
+    cmds:
+      - curl -f http://localhost:8000/health || exit 1
+
+  health-detailed:
+    desc: "Check detailed health"
+    cmds:
+      - curl -f http://localhost:8000/api/v1/health || exit 1
+
+  # Performance
+  benchmark:
+    desc: "Run benchmarks"
+    cmds:
+      - pytest -m performance --benchmark-only --benchmark-save=benchmark
+
+  benchmark-compare:
+    desc: "Compare benchmarks"
+    cmds:
+      - pytest -m performance --benchmark-compare
+
+  # Complexity
+  complexity:
+    desc: "Check code complexity"
+    cmds:
+      - xenon --max-absolute B --max-modules A --max-average A src
+      - radon cc src --min B --show-complexity --average
+
+  # Dead Code
+  dead-code:
+    desc: "Find dead code"
+    cmds:
+      - vulture src --min-confidence 80
+
+  # Dependencies
+  deps-check:
+    desc: "Check dependencies"
+    cmds:
+      - pip check
+      - pip-audit
+
+  deps-update:
+    desc: "Update dependencies"
+    cmds:
+      - pip list --outdated
+      - pip-review --auto
+
+  # Environment
+  env-check:
+    desc: "Check environment"
+    cmds:
+      - python -c "import sys; print(f'Python {sys.version}')"
+      - python -c "import src; print('Import successful')"
+
+  env-setup:
+    desc: "Setup environment"
+    cmds:
+      - python -m venv venv
+      - source venv/bin/activate && pip install -e .[dev]
+
+  # Git
+  git-hooks:
+    desc: "Setup git hooks"
+    cmds:
+      - pre-commit install
+      - pre-commit install --hook-type commit-msg
+
+  # Logs
+  logs:
+    desc: "View application logs"
+    cmds:
+      - tail -f logs/app.log
+
+  logs-error:
+    desc: "View error logs"
+    cmds:
+      - grep -i error logs/app.log
+
+  # Backup
+  backup:
+    desc: "Create backup"
+    cmds:
+      - tar -czf backup-$(date +%Y%m%d-%H%M%S).tar.gz src tests docs
+
+  # Restore
+  restore:
+    desc: "Restore from backup"
+    cmds:
+      - tar -xzf backup-*.tar.gz
+
+  # All-in-one
+  all:
+    desc: "Run all checks and tests"
+    cmds:
+      - task: quality
+      - task: test
+      - task: security
+      - task: complexity
+      - task: dead-code
+
+  # Quick
+  quick:
+    desc: "Quick development setup"
+    cmds:
+      - task: install
+      - task: pre-commit-install
+      - task: test-fast
+
+  # Full
+  full:
+    desc: "Full development setup"
+    cmds:
+      - task: install
+      - task: pre-commit-install
+      - task: quality
+      - task: test
+      - task: security
+      - task: build

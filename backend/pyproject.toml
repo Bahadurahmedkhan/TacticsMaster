@@ -3,87 +3,120 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tactics-master-backend"
-version = "1.0.0"
-description = "AI-powered cricket tactical analysis backend"
+name = "tactics-master"
+version = "2.0.0"
+description = "AI-powered cricket tactical analysis platform"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Tactics Master Team", email = "team@tacticsmaster.com"}
+    {name = "Tactics Master Team", email = "team@tacticsmaster.com"},
 ]
-keywords = ["cricket", "ai", "analysis", "tactics", "sports"]
+keywords = ["cricket", "ai", "tactics", "analysis", "sports"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
+    "Intended Audience :: Sports",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Sports",
 ]
 
 dependencies = [
-    "fastapi>=0.104.1",
+    "fastapi>=0.104.0",
     "uvicorn[standard]>=0.24.0",
     "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
     "langchain>=0.1.0",
     "langchain-openai>=0.0.5",
     "langchain-google-genai>=0.0.6",
-    "httpx>=0.25.2",
+    "aiohttp>=3.9.0",
     "requests>=2.31.0",
-    "pandas>=2.2.0",
-    "numpy>=1.26.0",
     "python-dotenv>=1.0.0",
+    "python-multipart>=0.0.6",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "psutil>=5.9.0",
     "structlog>=23.2.0",
+    "tenacity>=8.2.0",
+    "httpx>=0.25.0",
+    "redis>=5.0.0",
+    "aioredis>=2.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.4.3",
-    "pytest-asyncio>=0.21.1",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
     "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "pytest-xdist>=3.5.0",
     "black>=23.11.0",
     "isort>=5.12.0",
     "flake8>=6.1.0",
-    "mypy>=1.7.1",
+    "mypy>=1.7.0",
+    "bandit>=1.7.5",
+    "safety>=2.3.5",
     "pre-commit>=3.6.0",
-]
-prod = [
-    "gunicorn>=21.2.0",
-    "prometheus-client>=0.19.0",
-    "redis>=5.0.1",
-    "celery>=5.3.4",
+    "coverage>=7.3.0",
+    "pytest-benchmark>=4.0.0",
+    "memory-profiler>=0.61.0",
+    "line-profiler>=4.1.0",
 ]
 test = [
-    "pytest>=7.4.3",
-    "pytest-asyncio>=0.21.1",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.12.0",
-    "factory-boy>=3.3.0",
-    "faker>=20.1.0",
+    "pytest-xdist>=3.5.0",
+    "coverage>=7.3.0",
+    "pytest-benchmark>=4.0.0",
+]
+lint = [
+    "black>=23.11.0",
+    "isort>=5.12.0",
+    "flake8>=6.1.0",
+    "mypy>=1.7.0",
+    "bandit>=1.7.5",
+    "safety>=2.3.5",
+    "pre-commit>=3.6.0",
+]
+security = [
+    "bandit>=1.7.5",
+    "safety>=2.3.5",
+    "semgrep>=1.45.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/Bahadurahmedkhan/TacticsMaster"
+Homepage = "https://github.com/tacticsmaster/tactics-master"
 Documentation = "https://docs.tacticsmaster.com"
-Repository = "https://github.com/Bahadurahmedkhan/TacticsMaster.git"
-Issues = "https://github.com/Bahadurahmedkhan/TacticsMaster/issues"
+Repository = "https://github.com/tacticsmaster/tactics-master.git"
+"Bug Tracker" = "https://github.com/tacticsmaster/tactics-master/issues"
 
 [project.scripts]
 tactics-master = "src.main:main"
-tactics-master-dev = "src.main:main_dev"
+tactics-master-dev = "src.main:dev_main"
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]
+exclude = ["tests*", "docs*"]
 
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml", "*.json", "*.txt", "*.md"]
+
+# Black configuration
 [tool.black]
 line-length = 88
-target-version = ['py38', 'py39', 'py310', 'py311']
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -99,13 +132,46 @@ extend-exclude = '''
 )/
 '''
 
+# isort configuration
 [tool.isort]
 profile = "black"
 multi_line_output = 3
 line_length = 88
-known_first_party = ["src"]
-known_third_party = ["fastapi", "pydantic", "langchain", "httpx"]
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+src_paths = ["src", "tests"]
+skip_glob = ["*/migrations/*"]
 
+# Flake8 configuration
+[tool.flake8]
+max-line-length = 88
+extend-ignore = [
+    "E203",  # whitespace before ':'
+    "E501",  # line too long (handled by black)
+    "W503",  # line break before binary operator
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    ".eggs",
+    "*.egg",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".coverage",
+    "htmlcov",
+    "migrations",
+]
+per-file-ignores = [
+    "__init__.py:F401",  # imported but unused
+    "tests/*:S101",       # use of assert in tests
+]
+
+# MyPy configuration
 [tool.mypy]
 python_version = "3.8"
 warn_return_any = true
@@ -120,19 +186,42 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 strict_equality = true
+show_error_codes = true
+show_column_numbers = true
+show_error_context = true
+pretty = true
 
 [[tool.mypy.overrides]]
 module = [
     "langchain.*",
     "langchain_openai.*",
     "langchain_google_genai.*",
-    "langchain_community.*",
+    "aiohttp.*",
+    "requests.*",
+    "psutil.*",
+    "structlog.*",
+    "tenacity.*",
+    "httpx.*",
+    "redis.*",
+    "aioredis.*",
 ]
 ignore_missing_imports = true
 
+# Pytest configuration
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -q --strict-markers --strict-config"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+    "--tb=short",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=90",
+    "--asyncio-mode=auto",
+]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
@@ -142,8 +231,17 @@ markers = [
     "integration: marks tests as integration tests",
     "unit: marks tests as unit tests",
     "e2e: marks tests as end-to-end tests",
+    "performance: marks tests as performance tests",
+    "security: marks tests as security tests",
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
 ]
 
+# Coverage configuration
 [tool.coverage.run]
 source = ["src"]
 omit = [
@@ -151,6 +249,11 @@ omit = [
     "*/test_*",
     "*/__pycache__/*",
     "*/migrations/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/env/*",
+    "*/build/*",
+    "*/dist/*",
 ]
 
 [tool.coverage.report]
@@ -170,28 +273,100 @@ exclude_lines = [
 [tool.coverage.html]
 directory = "htmlcov"
 
-[tool.ruff]
-target-version = "py38"
-line-length = 88
-select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
-    "B",  # flake8-bugbear
-    "C4", # flake8-comprehensions
-    "UP", # pyupgrade
-]
-ignore = [
-    "E501",  # line too long, handled by black
-    "B008",  # do not perform function calls in argument defaults
-    "C901",  # too complex
-]
-
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
-"tests/**/*" = ["B011", "S101", "PLR2004"]
-
+# Bandit configuration
 [tool.bandit]
 exclude_dirs = ["tests", "test_*"]
-skips = ["B101", "B601"]
+skips = ["B101", "B601"]  # Skip assert_used and shell_injection for tests
+
+# Safety configuration
+[tool.safety]
+output = "json"
+full_report = true
+
+# Pre-commit configuration
+[tool.pre-commit]
+repos = [
+    {
+        repo = "https://github.com/pre-commit/pre-commit-hooks",
+        rev = "v4.5.0",
+        hooks = [
+            {id = "trailing-whitespace"},
+            {id = "end-of-file-fixer"},
+            {id = "check-yaml"},
+            {id = "check-json"},
+            {id = "check-toml"},
+            {id = "check-merge-conflict"},
+            {id = "check-added-large-files"},
+            {id = "mixed-line-ending"},
+        ],
+    },
+    {
+        repo = "https://github.com/psf/black",
+        rev = "23.11.0",
+        hooks = [{id = "black", language_version = "python3"}],
+    },
+    {
+        repo = "https://github.com/pycqa/isort",
+        rev = "5.12.0",
+        hooks = [{id = "isort", args = ["--profile", "black"]}],
+    },
+    {
+        repo = "https://github.com/pycqa/flake8",
+        rev = "6.1.0",
+        hooks = [{id = "flake8", args = ["--max-line-length", "88"]}],
+    },
+    {
+        repo = "https://github.com/pre-commit/mirrors-mypy",
+        rev = "v1.7.1",
+        hooks = [
+            {
+                id = "mypy",
+                additional_dependencies = [
+                    "types-requests",
+                    "types-redis",
+                    "types-PyYAML",
+                ],
+            }
+        ],
+    },
+    {
+        repo = "https://github.com/PyCQA/bandit",
+        rev = "1.7.5",
+        hooks = [{id = "bandit", args = ["-r", "src", "-f", "json", "-o", "bandit-report.json"]}],
+    },
+    {
+        repo = "https://github.com/Lucas-C/pre-commit-hooks-safety",
+        rev = "v1.3.2",
+        hooks = [{id = "safety", args = ["--json", "--output", "safety-report.json"]}],
+    },
+]
+
+# Task runner configuration
+[tool.taskipy]
+tasks = {
+    "install": "pip install -e .[dev]",
+    "install-prod": "pip install -e .",
+    "test": "pytest",
+    "test-fast": "pytest -x -v --tb=short",
+    "test-cov": "pytest --cov=src --cov-report=html --cov-report=term-missing",
+    "test-integration": "pytest -m integration",
+    "test-unit": "pytest -m unit",
+    "test-e2e": "pytest -m e2e",
+    "test-performance": "pytest -m performance",
+    "test-security": "pytest -m security",
+    "lint": "flake8 src tests",
+    "lint-fix": "black src tests && isort src tests",
+    "type-check": "mypy src",
+    "security": "bandit -r src && safety check",
+    "format": "black src tests",
+    "format-check": "black --check src tests",
+    "sort-imports": "isort src tests",
+    "sort-imports-check": "isort --check-only src tests",
+    "quality": "task lint && task type-check && task security",
+    "pre-commit": "pre-commit run --all-files",
+    "pre-commit-install": "pre-commit install",
+    "clean": "rm -rf build dist *.egg-info .coverage htmlcov .pytest_cache .mypy_cache",
+    "build": "python -m build",
+    "dev": "uvicorn src.main:app --reload --host 0.0.0.0 --port 8000",
+    "prod": "uvicorn src.main:app --host 0.0.0.0 --port 8000 --workers 4",
+}
